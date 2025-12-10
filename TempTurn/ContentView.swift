@@ -13,7 +13,7 @@ struct ContentView: View {
     @State private var outputUnit: UnitTemperature = .fahrenheit
     @FocusState private var isTemperatureFieldFocused: Bool
     
-    var convertedTemperature: Double {
+    private var convertedTemperature: Double {
         let input = Measurement(value: temperature, unit: inputUnit)
         return input.converted(to: outputUnit).value
     }
@@ -26,6 +26,7 @@ struct ContentView: View {
                               value: $temperature,
                               format: .number)
                         .keyboardType(.decimalPad)
+                        .focused($isTemperatureFieldFocused)
                     
                     Picker("From", selection: $inputUnit) {
                         Text("°C").tag(UnitTemperature.celsius)
@@ -47,6 +48,13 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("TempTurn")
+            .toolbar {
+                if isTemperatureFieldFocused {
+                    Button("Done") {
+                        isTemperatureFieldFocused = false
+                    }
+                }
+            }
         }
     }
 }
