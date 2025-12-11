@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var temperature = 0.0
+    @State private var temperature: Double = 0.0
     @State private var inputUnit: UnitTemperature = .celsius
     @State private var outputUnit: UnitTemperature = .fahrenheit
     @FocusState private var isTemperatureFieldFocused: Bool
@@ -22,9 +22,19 @@ struct ContentView: View {
     }
     
     private var convertedTemperature: Double {
+        let input: Measurement<UnitTemperature> = Measurement(value: clampedTempForConversion,
+                                                              unit: inputUnit)
+        return input.converted(to: outputUnit).value
+    }
+    
+    private var inputInKelvin: Double {
         let input = Measurement(value: clampedTempForConversion,
                                 unit: inputUnit)
-        return input.converted(to: outputUnit).value
+        return input.converted(to: .kelvin).value
+    }
+    
+    private var temperatureColor: Color {
+        continuousThermalColor(kelvin: inputInKelvin)
     }
     
     var body: some View {
@@ -34,7 +44,7 @@ struct ContentView: View {
                     TextField("Temperature",
                               value: $temperature,
                               format: .number)
-                        .keyboardType(.decimalPad)
+                        .keyboardType(.numbersAndPunctuation)
                         .focused($isTemperatureFieldFocused)
                     
                     Picker("From", selection: $inputUnit) {
