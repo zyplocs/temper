@@ -13,8 +13,17 @@ struct ContentView: View {
     @State private var outputUnit: UnitTemperature = .fahrenheit
     @FocusState private var isTemperatureFieldFocused: Bool
     
+    private var clampedTempForConversion: Double {
+        if inputUnit == .kelvin {
+            return max(0, temperature)
+        } else {
+            return temperature
+        }
+    }
+    
     private var convertedTemperature: Double {
-        let input = Measurement(value: temperature, unit: inputUnit)
+        let input = Measurement(value: clampedTempForConversion,
+                                unit: inputUnit)
         return input.converted(to: outputUnit).value
     }
     
