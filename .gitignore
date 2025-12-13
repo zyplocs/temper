@@ -1,1 +1,14 @@
-*.xcodeproj
+*.xcodeproj/
+*.xcworkspace/
+build/
+DerivedData/
+*.swiftdoc
+*.swiftmodule
+.DS_Store
+*.plist
+*.db
+*.sqlite3
+*.log
+*.tmp
+*.lock
+*.DS_Store

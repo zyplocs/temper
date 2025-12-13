@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var temperature: Double = 0.0
+    @State private var temperature: Double = 0
     @State private var inputUnit: UnitTemperature = .celsius
     @State private var outputUnit: UnitTemperature = .fahrenheit
     @FocusState private var isTemperatureFieldFocused: Bool
